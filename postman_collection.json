@@ -1,0 +1,202 @@
+{
+  "info": {
+    "_postman_id": "85fc26f8-67e4-40ad-a136-588e4303c59d",
+    "name": "AWS",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "4722246"
+  },
+  "item": [
+    {
+      "name": "S3",
+      "item": [
+        {
+          "name": "Buckets",
+          "item": [
+            {
+              "name": "Bucket Exists",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/buckets/{{bucketName}}",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "buckets",
+                    "{{bucketName}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Bucket",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/buckets/{{bucketName}}",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "buckets",
+                    "{{bucketName}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/buckets/{{bucketName}}",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "buckets",
+                    "{{bucketName}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Files",
+          "item": [
+            {
+              "name": "Upload File",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "src": "/Users/marcofaccani/Desktop/prova.txt"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "localhost:{{port}}/storage/files/upload",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "files",
+                    "upload"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "File",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/files/delete/{{fileName}}",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "files",
+                    "delete",
+                    "{{fileName}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "File Content",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/files/{{fileName}}",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "files",
+                    "{{fileName}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Share File",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/files/{{fileName}}/share?expirationTimeInMinutes=2",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "files",
+                    "{{fileName}}",
+                    "share"
+                  ],
+                  "query": [
+                    {
+                      "key": "expirationTimeInMinutes",
+                      "value": "2"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Files in Bucket",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "localhost:{{port}}/storage/files",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "{{port}}",
+                  "path": [
+                    "storage",
+                    "files"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

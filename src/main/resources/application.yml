@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: aws-s3-demo
+  servlet:
+    multipart:
+      max-file-size: 500MB # by default max size is 1MB
+      max-request-size: 500MB # by default max size is 1MB
+  mvc:
+    async:
+      request-timeout: 300000 # 5 minutes
+  cloud:
+    aws:
+      region:
+        static: eu-west-3 # paris
+      credentials:
+        accessKey: ${AWS_ACCESS_KEY}
+        secretKey: ${AWS_SECRET_KEY}
+
+app:
+  aws:
+    s3:
+      bucket-name: mfaccani-aws-s3-demo
+
+# Micrometer
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics
+  endpoint:
+    metrics:
+      enabled: true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+

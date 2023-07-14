@@ -1,5 +1,7 @@
 package com.marcofaccani.awss3.service;
 
+import com.marcofaccani.awss3.exceptions.S3BucketCreationException;
+import com.marcofaccani.awss3.exceptions.S3UnauthorizedException;
 import com.marcofaccani.awss3.service.interfaces.BucketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,7 +39,7 @@ public class BucketServiceImpl implements BucketService {
     } catch (S3Exception ex) {
       if (ex.statusCode() == HttpStatus.UNAUTHORIZED.value()) {
         final var errMsg = String.format(ERR_MSG_UNAUTHORIZED, bucketName);
-        throw new RuntimeException(errMsg);
+        throw new S3UnauthorizedException(errMsg);
       }
       throw ex;
     }
@@ -54,7 +56,7 @@ public class BucketServiceImpl implements BucketService {
         log.info(String.format(MSG_BUCKET_CREATED, bucketName));
       } catch (Exception ex) {
         final var errMsg = String.format(ERR_MSG_BUCKET_CREATION, bucketName, ex.getMessage());
-        throw new RuntimeException(errMsg);
+        throw new S3BucketCreationException(errMsg);
       }
     }
   }

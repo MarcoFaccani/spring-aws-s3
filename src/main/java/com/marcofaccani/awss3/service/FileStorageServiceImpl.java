@@ -4,6 +4,11 @@ import java.time.Duration;
 import java.util.List;
 
 import com.marcofaccani.awss3.config.AwsS3ConfigProperties;
+import com.marcofaccani.awss3.exceptions.S3GetObjectException;
+import com.marcofaccani.awss3.exceptions.S3ListObjectsException;
+import com.marcofaccani.awss3.exceptions.S3PresignedUrlException;
+import com.marcofaccani.awss3.exceptions.S3ObjectDeleteException;
+import com.marcofaccani.awss3.exceptions.S3PutObjectException;
 import com.marcofaccani.awss3.service.interfaces.BucketService;
 import com.marcofaccani.awss3.service.interfaces.FileStorageService;
 import jakarta.annotation.PostConstruct;
@@ -65,7 +70,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     } catch (Exception ex) {
       final var errMsg = String.format(ERR_MSG_LIST_BUCKET_CONTENT_FAILED, awsS3ConfigProperties.getBucketName(),
           ex.getMessage());
-      throw new RuntimeException(errMsg);
+      throw new S3ListObjectsException(errMsg);
     }
   }
 
@@ -79,7 +84,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     try {
       s3Client.putObject(request, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
     } catch (Exception ex) {
-      throw new RuntimeException(String.format(ERR_MSG_UPLOAD_FAILED, file.getOriginalFilename(), ex.getMessage()));
+      throw new S3PutObjectException(String.format(ERR_MSG_UPLOAD_FAILED, file.getOriginalFilename(), ex.getMessage()));
     }
   }
 
@@ -93,7 +98,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     try {
       s3Client.deleteObject(request);
     } catch (Exception ex) {
-      throw new RuntimeException(String.format(ERR_MSG_DELETE_FAILED, fileName, ex.getMessage()));
+      throw new S3ObjectDeleteException(String.format(ERR_MSG_DELETE_FAILED, fileName, ex.getMessage()));
     }
   }
 
@@ -109,7 +114,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     } catch (NoSuchKeyException ex) {
       throw ex;
     } catch (Exception ex) {
-      throw new RuntimeException(String.format(ERR_MSG_RETRIEVE_FAILED, fileName, ex.getMessage()));
+      throw new S3GetObjectException(String.format(ERR_MSG_RETRIEVE_FAILED, fileName, ex.getMessage()));
     }
   }
 
@@ -129,7 +134,7 @@ public class FileStorageServiceImpl implements FileStorageService {
       return presignedGetObjectResponse.url().toString();
     } catch (Exception ex) {
       final var errMsg = String.format(ERR_MSG_GENERATE_PRESIGNEDURL_FAILED, fileName, ex.getMessage());
-      throw new RuntimeException(errMsg);
+      throw new S3PresignedUrlException(errMsg);
     }
   }
 

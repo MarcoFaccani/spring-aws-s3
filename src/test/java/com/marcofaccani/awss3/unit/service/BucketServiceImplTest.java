@@ -1,5 +1,7 @@
 package com.marcofaccani.awss3.unit.service;
 
+import com.marcofaccani.awss3.exceptions.S3BucketCreationException;
+import com.marcofaccani.awss3.exceptions.S3UnauthorizedException;
 import com.marcofaccani.awss3.service.BucketServiceImpl;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -91,7 +93,7 @@ class BucketServiceImplTest {
 
       when(s3Client.headBucket(expectedHeadBucketRequest)).thenThrow(unauthorizedException);
 
-      final var ex = assertThrows(RuntimeException.class, () -> underTest.doesBucketExist(BUCKET_NAME));
+      final var ex = assertThrows(S3UnauthorizedException.class, () -> underTest.doesBucketExist(BUCKET_NAME));
       final var expectedErrMsg = String.format(BucketServiceImpl.ERR_MSG_UNAUTHORIZED, BUCKET_NAME);
       ;
       assertEquals(expectedErrMsg, ex.getMessage());
@@ -110,7 +112,7 @@ class BucketServiceImplTest {
 
       when(s3Client.headBucket(expectedRequest)).thenThrow(badRequestException);
 
-      final var ex = assertThrows(RuntimeException.class, () -> underTest.doesBucketExist(BUCKET_NAME));
+      final var ex = assertThrows(S3Exception.class, () -> underTest.doesBucketExist(BUCKET_NAME));
       assertEquals(errMsg, ex.getMessage());
       verify(s3Client).headBucket(expectedRequest);
     }
@@ -152,7 +154,7 @@ class BucketServiceImplTest {
       final var s3ErrMsg = "s3 error message";
       when(s3Client.createBucket(expectedS3Request)).thenThrow(new RuntimeException(s3ErrMsg));
 
-      final var ex = assertThrows(RuntimeException.class, () -> underTest.createBucket(BUCKET_NAME));
+      final var ex = assertThrows(S3BucketCreationException.class, () -> underTest.createBucket(BUCKET_NAME));
       final var expectedErrMsg = String.format(BucketServiceImpl.ERR_MSG_BUCKET_CREATION, BUCKET_NAME, s3ErrMsg);
       assertEquals(expectedErrMsg, ex.getMessage());
     }
